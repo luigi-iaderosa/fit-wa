@@ -1,0 +1,29 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', function () {
+    return view('welcome/welcome');
+});
+
+Route::get('/home', function () {
+    return view('welcome/welcome');
+});
+
+$webControllersPath = 'App\Http\Controllers\Web\\';
+Route::prefix('athletes')->group(function() use ($webControllersPath){
+    Route::get('/', $webControllersPath.'AthleteController@getAthletes');
+    Route::get('/add', $webControllersPath.'AthleteController@addAthlete');
+    Route::post('/add-post', $webControllersPath.'AthleteController@addAthletePost');
+});

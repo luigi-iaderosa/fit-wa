@@ -9,10 +9,9 @@ use App\Models\Traits\HasIdAsPrimaryKey;
 class Discipline extends Model
 {
     use HasFactory;
-    use HasTimestampsFalse;
-    use HasIdAsPrimaryKey;
     protected $table = 'discipline';
-    
-    
+    public $timestamps = false;
+    protected $primaryKey = 'id';
+    protected $guarded = ['id'];
     
 }

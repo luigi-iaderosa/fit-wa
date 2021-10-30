@@ -33,3 +33,11 @@ Route::prefix('disciplines')->group(function() use($webControllersPath){
     Route::get('/add', $webControllersPath.'DisciplineController@addDiscipline');
     Route::post('/add-post', $webControllersPath.'DisciplineController@addDisciplinePost');
 });
+
+
+
+Route::prefix('exercises')->group(function() use ($webControllersPath){
+    Route::get('/', $webControllersPath.'ExerciseController@getExercises');
+    Route::get('/add', $webControllersPath.'ExerciseController@addExercise');
+    Route::post('/add-post', $webControllersPath.'ExerciseController@addExercisePost');
+});

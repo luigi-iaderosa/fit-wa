@@ -26,6 +26,7 @@ Route::prefix('athletes')->group(function() use ($webControllersPath){
     Route::get('/', $webControllersPath.'AthleteController@getAthletes');
     Route::get('/add', $webControllersPath.'AthleteController@addAthlete');
     Route::post('/add-post', $webControllersPath.'AthleteController@addAthletePost');
+    Route::get('/{id}/training',$webControllersPath.'TrainingController@viewTraining');
 });
 
 Route::prefix('disciplines')->group(function() use($webControllersPath){

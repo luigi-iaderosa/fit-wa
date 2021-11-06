@@ -27,6 +27,7 @@ Route::prefix('athletes')->group(function() use ($webControllersPath){
     Route::get('/add', $webControllersPath.'AthleteController@addAthlete');
     Route::post('/add-post', $webControllersPath.'AthleteController@addAthletePost');
     Route::get('/{id}/training',$webControllersPath.'TrainingController@viewTraining');
+    Route::post('/{id}/training',$webControllersPath.'TrainingController@addTraining');
 });
 
 Route::prefix('disciplines')->group(function() use($webControllersPath){
@@ -41,4 +42,12 @@ Route::prefix('exercises')->group(function() use ($webControllersPath){
     Route::get('/', $webControllersPath.'ExerciseController@getExercises');
     Route::get('/add', $webControllersPath.'ExerciseController@addExercise');
     Route::post('/add-post', $webControllersPath.'ExerciseController@addExercisePost');
+});
+
+
+
+Route::prefix('services')->group(function() use($webControllersPath){
+    Route::prefix('exercises')->group(function() use($webControllersPath){
+        Route::get('by-discipline',$webControllersPath.'ExerciseController@getExercisesByDiscipline');
+    });
 });

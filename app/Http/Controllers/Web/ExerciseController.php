@@ -39,4 +39,11 @@ class ExerciseController extends Controller
         $request->session()->flash('add_ok', "Excercise has been added to database: ".$exercise->id);
         return redirect('/exercises');
     }
+    
+    
+    public function getExercisesByDiscipline(Request $request){
+        return Exercise::where('id_discipline','=',$request->discipline)->get();
+    }    
+    
+    
 }

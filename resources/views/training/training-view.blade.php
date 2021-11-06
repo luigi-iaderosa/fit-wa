@@ -44,8 +44,15 @@ $config = [
 ];
 @endphp
 
-
-
+<div class="row">
+    <div class="col-md-5">&nbsp</div>
+</div
+<div class="row">
+    <div class="col-md-5"><x-adminlte-button label="Add To Training" data-toggle="modal" data-target="#modalCustom" class="bg-teal"/></div>
+</div>
+<div class="row">
+    <div class="col-md-5">&nbsp</div>
+</div
 <x-adminlte-datatable id="table1" :heads="$heads">
     @foreach($config['data'] as $row)
         <tr>
@@ -55,6 +62,64 @@ $config = [
         </tr>
     @endforeach
 </x-adminlte-datatable>
+<x-adminlte-modal id="modalCustom" title="Add training" size="lg" theme="teal"
+    icon="fas fa-pencil-alt" v-centered static-backdrop scrollable>
+    
+    <div style="height:30px;">Insert a discipline</div>
+    <div style="height:100px;">
+        <form  method="POST" name="modalForm">
+            <select name="discipline" id="discipline" class="form-control" required>
+                <option value="-1">--No selection--</option>
+                @foreach ($disciplines as $discipline )
+                    <option value="{{$discipline->id}}">{{$discipline->name}}</option>
+                @endforeach
+            </select>
+            <div id="exercises">
+                
+            </div>
+            
+        </form>
+    </div>
+   
+    <x-slot name="footerSlot">
+        <x-adminlte-button class="mr-auto" theme="success" label="Accept" id="modalCustomPost"/>
+        <x-adminlte-button theme="danger" label="Dismiss" data-dismiss="modal"/>
+    </x-slot>
+</x-adminlte-modal>
 
 
+@stop
+
+
+@section('js')
+<script>
+    $(document).ready(function(){
+        $('#modalCustomPost').click(function(){
+            var id_discipline = $('#discipline').val();
+            alert(id_discipline);
+        });
+        $('#discipline').on('change',function(){
+            var id_discipline = $('#discipline').val();
+            
+            $.ajax
+                ({
+                type: "GET",
+                url: "/services/exercises/by-discipline?discipline="+id_discipline,
+                dataType: 'json',
+                success: function(data)
+                {
+                    //var i = 0;
+                     
+                    data.forEach(function(item){
+                        var inputCheckBox = '<input type="checkbox" name="exercises[]" value="'+item.id+'">&nbsp'+item.name+':'+item.single_shot_measure+' '+item.measure_unit+'&nbsp('+item.repetitions+' times)'+'<br>';
+                        $('#exercises').append(inputCheckBox);    
+                    });
+                    
+                    
+                }
+                });
+                 
+        });
+    });
+</script>
 @stop

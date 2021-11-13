@@ -10,7 +10,8 @@ use Illuminate\Database\Eloquent\Model;
 class AthleteExercise extends Model
 {
     use HasFactory;
-    use HasTimestampsFalse;
-    USE HasIdAsPrimaryKey;
+    public $timestamps = false;
+    protected $primaryKey = 'id_athlete_exercise';
+    protected $guarded = ['id_athlete_exercise'];
     protected $table = 'athlete_exercise';
 }

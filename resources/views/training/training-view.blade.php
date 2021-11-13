@@ -62,12 +62,14 @@ $config = [
         </tr>
     @endforeach
 </x-adminlte-datatable>
-<x-adminlte-modal id="modalCustom" title="Add training" size="lg" theme="teal"
-    icon="fas fa-pencil-alt" v-centered static-backdrop scrollable>
+<x-adminlte-modal id="modalCustom" title="Add training" size="xl" theme="teal"
+    icon="fas fa-pencil-alt" v-centered scrollable>
     
     <div style="height:30px;">Insert a discipline</div>
-    <div style="height:100px;">
+    
         <form  method="POST" name="modalForm">
+        {{csrf_field()}}
+        <input type="hidden" name="id_athlete" id="id_athlete" value="{{$athlete->id}}">
             <select name="discipline" id="discipline" class="form-control" required>
                 <option value="-1">--No selection--</option>
                 @foreach ($disciplines as $discipline )
@@ -79,7 +81,7 @@ $config = [
             </div>
             
         </form>
-    </div>
+    
    
     <x-slot name="footerSlot">
         <x-adminlte-button class="mr-auto" theme="success" label="Accept" id="modalCustomPost"/>
@@ -94,9 +96,28 @@ $config = [
 @section('js')
 <script>
     $(document).ready(function(){
-        $('#modalCustomPost').click(function(){
+        $('#modalCustomPost').click(function(event){
+            event.preventDefault();
             var id_discipline = $('#discipline').val();
-            alert(id_discipline);
+            var formData = $('[name=modalForm]').serializeArray();
+            var idAthlete = $('#id_athlete').val();
+            console.log(formData);
+            $.ajax(
+                {
+                    method: 'post',
+                    data: formData,
+                    success : function(data){
+                        alert('The training set has been correctly stored!')
+                        $('#modalCustom').modal('toggle');
+                        $('#exercises').empty();
+                        $('option[value=-1]').prop('selected',true);
+                        location.reload()
+                    },
+                    error : function (){
+                        alert('The training set has not been correctly stored!')
+                    }
+                }
+            ); 
         });
         $('#discipline').on('change',function(){
             var id_discipline = $('#discipline').val();

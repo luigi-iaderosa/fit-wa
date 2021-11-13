@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Athlete;
+use App\Models\AthleteExercise;
 use App\Models\Discipline;
 use Illuminate\Http\Request;
 
@@ -22,8 +23,16 @@ class TrainingController extends Controller
     
     
     public function addTraining(Request $request,$id){
-        dd($request->all());
+        foreach ($request->exercises  as $exc){
+            AthleteExercise::create([
+                'id_athlete'=>$id,
+                'id_exercise'=>$exc,
+                'complete'=>1,
+                'date_of_training'=>date('Y-m-d')
+            ]);    
+        }
     }
+    
     
     
 }
